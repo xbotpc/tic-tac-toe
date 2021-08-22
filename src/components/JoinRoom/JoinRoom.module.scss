@@ -1,0 +1,76 @@
+.container {
+    display         : flex;
+    align-items     : center;
+    justify-content : center;
+    width           : 30%;
+    height          : 30%;
+    min-width       : 250px;
+    min-height      : 120px;
+    background-color: white;
+    border-radius   : 12px;
+
+    .stack {
+        display: grid;
+        gap    : 15px;
+        width  : 60%;
+
+        input {
+            border       : none;
+            border-bottom: 1px solid rebeccapurple;
+            outline      : none;
+            font-size    : 14px;
+            height       : 30px;
+
+            &::placeholder {
+                font-size: 14px;
+            }
+        }
+
+        .roomAction {
+            background-color: green;
+            padding         : 4%;
+            border-radius   : 16px;
+            color           : white;
+            font-size       : 1em;
+            font-weight     : 500;
+            width           : max-content;
+        }
+    }
+
+
+    .split {
+        width  : 100%;
+        height : 100%;
+        display: flex;
+
+        span {
+            color      : #b4bbc5;
+            align-self : center;
+            font-size  : 0.8em;
+            font-weight: bold;
+        }
+
+        button[type=button] {
+            &.option {
+                flex       : 1;
+                font-size  : 2em;
+                font-weight: bold;
+                opacity    : 0.5;
+
+                &:hover {
+                    opacity: 1;
+                    scale  : 1.3;
+                    filter : brightness(70%);
+                }
+            }
+
+            &.join {
+                color: #39bcd4;
+            }
+
+            &.create {
+                color: #3a89d5;
+            }
+        }
+    }
+}
