@@ -1,38 +1,25 @@
 {
-  "name": "xbotpc-react-redux-ts-pwa-template",
+  "name": "tic-tac-toe",
   "author": {
     "name": "Piyush Choughule",
     "email": "piyush2396@gmail.com"
   },
-  "description": "Template for making initializing new React-Redux projects with Typescript and PWA functionality.",
+  "description": "Classic Tic-Tac-Toe game",
   "repository": {
-    "url": "https://github.com/xbotpc/react-redux-pwa-ts-template",
+    "url": "https://github.com/xbotpc/tic-tac-toe",
     "type": "git"
   },
   "license": "MIT",
-  "displayName": "React-Redux-TS-PWA Template by xbotpc",
-  "homepage": "https://xbotpc.github.io/react-redux-pwa-ts-template/",
+  "displayName": "Tic-Tac-Toe Game by xbotpc",
+  "homepage": "https://xbotpc.github.io/tic-tac-toe/",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
-    "react-redux": "^7.2.4",
     "react-scripts": "4.0.3",
-    "redux": "^4.1.0",
-    "web-vitals": "^0.2.4",
-    "workbox-background-sync": "^5.1.4",
-    "workbox-broadcast-update": "^5.1.4",
-    "workbox-cacheable-response": "^5.1.4",
-    "workbox-core": "^5.1.4",
-    "workbox-expiration": "^5.1.4",
-    "workbox-google-analytics": "^5.1.4",
-    "workbox-navigation-preload": "^5.1.4",
-    "workbox-precaching": "^5.1.4",
-    "workbox-range-requests": "^5.1.4",
-    "workbox-routing": "^5.1.4",
-    "workbox-strategies": "^5.1.4",
-    "workbox-streams": "^5.1.4"
+    "socket.io-client": "^4.1.3",
+    "web-vitals": "^0.2.4"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^5.12.0",
