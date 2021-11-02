@@ -1,17 +1,18 @@
 import cx from 'classnames';
 import { useState } from "react";
+import { RoomAction } from '../../types/roomAction';
 import isEmpty from "../../utils/isEmpty";
 import Button from "../Button/Button";
 import styles from './JoinRoom.module.scss';
 
 type JoinRoomProps = {
     roomName: string;
-    onJoinRoomClick: (action: string) => void;
+    onJoinRoomClick: (action: RoomAction) => void;
     onRoomNameChange: (text: string) => void;
 }
 
 const JoinRoom = ({ roomName = '', onJoinRoomClick, onRoomNameChange }: JoinRoomProps): JSX.Element => {
-    const [action, setAction] = useState<'Create' | 'Join' | ''>('');
+    const [action, setAction] = useState<RoomAction>('');
 
     const onActionClick = (_action: typeof action) => {
         setAction(_action);

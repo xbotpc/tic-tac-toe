@@ -5,8 +5,13 @@ import JoinRoom from '../../components/JoinRoom/JoinRoom';
 import TGameData from '../../types/gameData';
 import './App.module.scss';
 import styles from './App.module.scss';
+import dotenv from 'dotenv';
 
-const socket = io('http://localhost:8080');
+dotenv.config();
+
+const { SOCKET_URL } = process.env;
+
+const socket = io(SOCKET_URL || '');
 
 function App(): JSX.Element {
   const [gameID, setGameID] = useState('');
