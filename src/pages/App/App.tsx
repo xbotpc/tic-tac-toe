@@ -1,17 +1,19 @@
+import dotenv from 'dotenv';
 import { useEffect, useState } from 'react';
+import { unstable_batchedUpdates } from 'react-dom';
 import { io } from "socket.io-client";
 import Gameboard from '../../components/Gameboard/Gameboard';
 import JoinRoom from '../../components/JoinRoom/JoinRoom';
+import Scoreboard from '../../components/Scoreboard/Scoreboard';
 import TGameData from '../../types/gameData';
-import './App.module.scss';
+import { RoomAction } from '../../types/roomAction';
 import styles from './App.module.scss';
-import dotenv from 'dotenv';
 
 dotenv.config();
 
-const { SOCKET_URL } = process.env;
+const { REACT_APP_SOCKET_URL } = process.env;
 
-const socket = io(SOCKET_URL || '');
+const socket = io(REACT_APP_SOCKET_URL || '');
 
 function App(): JSX.Element {
   const [gameID, setGameID] = useState('');
@@ -21,37 +23,70 @@ function App(): JSX.Element {
     [{ type: '' }, { type: '' }, { type: '' }],
     [{ type: '' }, { type: '' }, { type: '' }]
   ]);
+  const [isMyTurn, setIsMyTurn] = useState(false);
+  // const [player1Score, setPlayer1Score] = useState(0);
+  // const [player2Score, setPlayer2Score] = useState(0);
+  // const [tieScore, setTieScore] = useState(0);
+  const [youWon, setYouWon] = useState(false);
+  const [gamePlay, setGamePlay] = useState(false);
 
   useEffect(() => {
-    socket.on('roomJoined', ({ gameID: _gameID, gameData }) => {
-      setGameID(_gameID);
-      setGameData(gameData);
+    socket.on('roomJoined', ({ gameID: _gameID, gameData: _gameData, nextMove, message }) => {
+      if (message === 'Room already exists') {
+        console.log('Room already exists.');
+      } else {
+        unstable_batchedUpdates(() => {
+          setGameID(_gameID);
+          setGameData(_gameData);
+          setIsMyTurn(nextMove === socket.id);
+          setGamePlay(true);
+        });
+      }
     });
 
     socket.on('onMoveResponse', (message) => {
+      if (message.message === 'winner') {
+        unstable_batchedUpdates(() => {
+          setIsMyTurn(false);
+          setYouWon(message.winnerID === socket.id);
+          setGamePlay(false);
+        })
+      } else {
+        setIsMyTurn(message.nextMove === socket.id);
+      }
       setGameData(message.gameData);
     });
-  });
+  }, []);
 
-  const onJoinRoomClick = (action: string) => {
+  const onJoinRoomClick = (action: RoomAction) => {
     socket.emit(`${action.toLowerCase()}Room`, {
       roomName,
     })
   }
 
+  // TODO: Remove gameID from function arguments. No need to pass gameID to Gameboard component
   const onBlockClick = (gameID: string, rowID: number, columnID: number) => {
-    socket.emit('blockClick', { gameID, rowID, columnID });
+    if (isMyTurn) {
+      socket.emit('blockClick', { gameID, rowID, columnID });
+    }
   }
 
   const onRoomNameChange = (text: string) => {
     setRoomName(text);
   }
 
+  console.log('render')
   return (
     <>
       <div className={styles.container}>
         {gameID
-          ? <Gameboard gameID={gameID} gameData={gameData} onBlockClick={onBlockClick} />
+          ? (
+            <>
+              <Gameboard gameID={gameID} gameData={gameData} onBlockClick={onBlockClick} />
+              {/* <Scoreboard player1Score={player1Score} player2Score={player2Score} tieScore={tieScore} /> */}
+              {!isMyTurn && gamePlay && <span className={styles.flashing}>Waiting for opponent...</span>}
+            </>
+          )
           : <JoinRoom roomName={roomName} onJoinRoomClick={onJoinRoomClick} onRoomNameChange={onRoomNameChange} />
         }
       </div>

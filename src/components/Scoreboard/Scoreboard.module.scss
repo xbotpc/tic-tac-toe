@@ -1,0 +1,17 @@
+.container {
+    display        : flex;
+    justify-content: space-between;
+    flex           : 1;
+    font-size      : 20px;
+
+    .scoreContainer {
+        display      : grid;
+        gap          : 10px;
+        justify-items: center;
+
+        .title,
+        .score {
+            font-size: 1.2em;
+        }
+    }
+}

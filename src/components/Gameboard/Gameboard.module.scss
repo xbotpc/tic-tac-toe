@@ -6,16 +6,55 @@
         align-items: center;
 
         button[type=button] {
-            flex  : 1;
-            color : white;
-            width : 15vmin;
-            height: 15vmin;
-
+            --button-size: 20vmin;
             --game-border: #dadada;
 
-            svg {
-                width : 100%;
-                height: 100%;
+            flex    : 1;
+            color   : white;
+            width   : var(--button-size);
+            height  : var(--button-size);
+            position: relative;
+
+            @mixin strikeBaseStyle {
+                content         : '';
+                display         : block;
+                background-color: white;
+                position        : absolute;
+                z-index         : 3;
+            }
+
+            &.horizontalStrike::after {
+                @include strikeBaseStyle;
+                width : 103%;
+                height: 10px;
+                top   : calc(var(--button-size) * 0.46);
+                left  : -2px;
+            }
+
+            &.verticalStrike::after {
+                @include strikeBaseStyle;
+                width : 10px;
+                height: 103%;
+                left  : calc(var(--button-size) * 0.46);
+                top   : -2px;
+            }
+
+            &.rightDiagonalStrike::after {
+                @include strikeBaseStyle;
+                width    : 10px;
+                height   : 150%;
+                left     : calc(var(--button-size) * 0.46);
+                top      : -46px;
+                transform: rotatez(45deg);
+            }
+
+            &.leftDiagonalStrike::after {
+                @include strikeBaseStyle;
+                width    : 10px;
+                height   : 150%;
+                left     : calc(var(--button-size) * 0.46);
+                top      : -46px;
+                transform: rotatez(-45deg);
             }
 
             &.bottomBorder {
@@ -23,8 +62,28 @@
             }
 
             &.centerBlock {
-                border-left : 5px solid var(--game-border);
-                border-right: 5px solid var(--game-border);
+                border-inline: 5px solid var(--game-border);
+            }
+
+            svg {
+                width : 100%;
+                height: 100%;
+            }
+
+            &.striked {
+                svg {
+                    animation: Impose 0.2s cubic-bezier(.19, 1, .22, 1) 2 alternate-reverse;
+
+                    @keyframes Impose {
+                        0% {
+                            opacity: 1;
+                        }
+
+                        100% {
+                            opacity: 0;
+                        }
+                    }
+                }
             }
         }
     }

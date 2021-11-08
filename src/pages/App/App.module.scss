@@ -4,7 +4,27 @@
   background-color: #02020a;
   height          : 100vh;
   width           : 100vw;
-  display         : flex;
+  display         : grid;
   justify-content : center;
-  align-items     : center;
+  align-content   : center;
+  gap             : 60px;
+  position        : relative;
+
+  .flashing {
+    text-align: center;
+    position  : absolute;
+    bottom    : 8%;
+    left      : 45%;
+    animation : flashing 1s cubic-bezier(.45, .05, .55, .95) infinite;
+
+    @keyframes flashing {
+      0% {
+        opacity: 1;
+      }
+
+      100% {
+        opacity: 0.3;
+      }
+    }
+  }
 }
