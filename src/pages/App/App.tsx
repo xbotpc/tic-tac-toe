@@ -84,7 +84,7 @@ function App(): JSX.Element {
             <>
               <Gameboard gameID={gameID} gameData={gameData} onBlockClick={onBlockClick} />
               {/* <Scoreboard player1Score={player1Score} player2Score={player2Score} tieScore={tieScore} /> */}
-              {!isMyTurn && gamePlay && <span className={styles.flashing}>Waiting for opponent...</span>}
+              {gamePlay && <span className={styles.flashing}>{isMyTurn ? 'Your Turn' : 'Waiting for opponent...'}</span>}
             </>
           )
           : <JoinRoom roomName={roomName} onJoinRoomClick={onJoinRoomClick} onRoomNameChange={onRoomNameChange} />
